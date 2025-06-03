@@ -1,0 +1,46 @@
+import java.util.Scanner;
+
+class Temperatura {
+    private double temperatura;
+    private String unidade;  
+
+    public Temperatura(double temperatura) {
+        this.temperatura = temperatura;
+        this.unidade = "celsius";  
+    }
+
+    public void celsiusToFahrenheit() {
+        temperatura = (temperatura * 9.0 / 5.0) + 32.0;
+        unidade = "fahrenheit";  
+    }
+
+    public void fahrenheitToCelsius() {
+        temperatura = (temperatura - 32.0) * 5.0 / 9.0;
+        unidade = "celsius"; 
+    }
+
+    public String toString() {
+        return String.format("temperatura: %.1f graus %s", temperatura, unidade);
+    }
+
+    public double getTemperatura() {
+        return temperatura;
+    }
+}
+
+public class Converter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double entrada = scanner.nextDouble();
+
+        Temperatura temp = new Temperatura(entrada);
+        
+        temp.celsiusToFahrenheit();
+        System.out.println(temp.toString());
+
+        temp.fahrenheitToCelsius();
+        System.out.println(temp.toString());
+
+        scanner.close();
+    }
+}
