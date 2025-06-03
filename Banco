@@ -1,0 +1,139 @@
+import java.util.Scanner;
+
+class Conta {
+    private int numeroConta;
+    private String nomeCliente;
+    private double saldo;
+    private int senha;
+
+    public Conta(int numeroConta, int senha, String nomeCliente, double saldo) {
+        this.numeroConta = numeroConta;
+        this.senha = senha;
+        this.nomeCliente = nomeCliente;
+        this.saldo = saldo;
+    }
+
+    public int getNumeroConta() {
+        return numeroConta;
+    }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public double getSaldo(int senhaInformada) {
+        if (this.senha == senhaInformada) {
+            return this.saldo;
+        } else {
+            return -1;
+        }
+    }
+
+    public boolean sacar(double valor, int senhaInformada) {
+        if (senha == senhaInformada && valor > 0 && valor <= saldo) {
+            saldo -= valor;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean depositar(double valor, int senhaInformada) {
+        if (senha == senhaInformada && valor > 0) {
+            saldo += valor;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean transferir(double valor, int senhaInformada, Conta destino) {
+        if (senha == senhaInformada && valor > 0 && valor <= saldo) {
+            saldo -= valor;
+            destino.saldo += valor;
+            return true;
+        }
+        return false;
+    }
+}
+
+public class Banco {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int numConta1 = scanner.nextInt();
+        int senha1 = scanner.nextInt();
+        String nome1 = scanner.next();
+        double saldo1 = scanner.nextDouble();
+
+        int numConta2 = scanner.nextInt();
+        int senha2 = scanner.nextInt();
+        String nome2 = scanner.next();
+        double saldo2 = scanner.nextDouble();
+
+        Conta conta1 = new Conta(numConta1, senha1, nome1, saldo1);
+        Conta conta2 = new Conta(numConta2, senha2, nome2, saldo2);
+
+        int opcao;
+
+        do {
+            opcao = scanner.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    int senhaConsulta = scanner.nextInt();
+                    double saldo = conta1.getSaldo(senhaConsulta);
+                    if (saldo == -1) {
+                        System.out.println("senha incorreta");
+                    } else {
+                        System.out.printf("%.2f%n", saldo);
+                    }
+                    break;
+
+                case 2:
+                    double valorSaque = scanner.nextDouble();
+                    int senhaSaque = scanner.nextInt();
+                    if (conta1.sacar(valorSaque, senhaSaque)) {
+                        System.out.println("saque realizado");
+                    } else {
+                        System.out.println("saque não realizado");
+                    }
+                    break;
+
+                case 3:
+                    double valorDeposito = scanner.nextDouble();
+                    int senhaDeposito = scanner.nextInt();
+                    if (conta1.depositar(valorDeposito, senhaDeposito)) {
+                        System.out.println("depósito realizado");
+                    } else {
+                        System.out.println("depósito não realizado");
+                    }
+                    break;
+
+                case 4:
+                    String nomeDestino = scanner.next();
+                    if (!nomeDestino.equals(conta2.getNomeCliente())) {
+                        System.out.println("nenhum usuário encontrado");
+                    } else {
+                        double valorTransferencia = scanner.nextDouble();
+                        int senhaTransferencia = scanner.nextInt();
+                        if (conta1.transferir(valorTransferencia, senhaTransferencia, conta2)) {
+                            System.out.println("transferência realizada");
+                        } else {
+                            System.out.println("transferência não realizada");
+                        }
+                    }
+                    break;
+
+                case 5:
+
+                    break;
+
+                default:
+
+                    break;
+            }
+
+        } while (opcao != 5);
+
+        scanner.close();
+    }
+}
