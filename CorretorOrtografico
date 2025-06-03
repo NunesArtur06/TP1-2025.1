@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+public class CorretorOrtografico {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int num = Integer.parseInt(scanner.nextLine());
+        String[] dicionario = new String[num];
+
+        for (int i = 0; i < num; i++) {
+            dicionario[i] = scanner.nextLine();
+        }
+
+        String palavra = scanner.nextLine();
+
+        boolean correta = false;
+        for (int i = 0; i < dicionario.length; i++) {
+            if (palavra.equals(dicionario[i])) {
+                correta = true;
+                break;
+            }
+        }
+
+        if (correta) {
+            System.out.println("palavra correta");
+        } else {
+            System.out.println("palavra incorreta");
+
+            boolean sugestaoEncontrada = false;
+
+            for (int i = 0; i < palavra.length() - 1; i++) {
+                StringBuilder sb = new StringBuilder(palavra);
+                char temp = sb.charAt(i);
+                sb.setCharAt(i, sb.charAt(i + 1));
+                sb.setCharAt(i + 1, temp);
+
+                String novaPalavra = sb.toString();
+
+                for (int j = 0; j < dicionario.length; j++) {
+                    if (novaPalavra.equals(dicionario[j])) {
+                        System.out.println(dicionario[j] + "?");
+                        sugestaoEncontrada = true;
+                        break;
+                    }
+                }
+
+                if (sugestaoEncontrada) {
+                    break;
+                }
+            }
+
+            if (!sugestaoEncontrada) {
+                System.out.println("nenhuma sugestão");
+            }
+        }
+
+    }
+}
