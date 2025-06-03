@@ -1,0 +1,48 @@
+import java.util.*;
+
+public class EstoqueManager {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in).useLocale(Locale.US);
+        Map<String, Integer> estoque = new LinkedHashMap<>();
+
+        int qtdProdutos = scan.nextInt();
+        scan.nextLine();
+
+        for (int i = 0; i < qtdProdutos; i++) {
+            String nome = scan.next();
+            int quantidade = scan.nextInt();
+            scan.nextLine();
+            estoque.put(nome, quantidade);
+        }
+
+        List<String> consumos = new ArrayList<>();
+
+        while (scan.hasNext()) {
+            String produto = scan.next();
+
+            if (produto.equals("fim")) {
+                break;
+            }
+
+            if (!scan.hasNextInt()) {
+                System.out.println(produto + " produto não encontrado");
+                continue;
+            }
+
+            int qtd = scan.nextInt();
+            scan.nextLine();
+
+            if (estoque.containsKey(produto)) {
+                int atual = estoque.get(produto);
+                estoque.put(produto, atual - qtd);
+                System.out.println(produto + " " + qtd);
+            } else {
+                System.out.println(produto + " produto não encontrado");
+            }
+        }
+
+        for (Map.Entry<String, Integer> entry : estoque.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
+    }
+}
