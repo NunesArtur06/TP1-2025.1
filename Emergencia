@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static class Emergencia {
+        public String nomeChamador;
+        public String telefoneChamador;
+        public String localEmergencia;
+        public String dataHoraRelato;
+        public String naturezaEmergencia;
+        public String tipoResposta;
+        public String statusResposta;
+        public String chamadaCelular;
+        public String coordenadasGPS;
+        public boolean possuiCoordenadas;
+
+        public void mostrarEmergencias(int numero) {
+            System.out.println("Emergência #" + numero);
+            System.out.println("\n--- Informações da Emergência ---\n");
+            System.out.println("Nome do Chamador: " + nomeChamador);
+            System.out.println("Telefone: " + telefoneChamador);
+            System.out.println("Local da Emergência: " + localEmergencia);
+            System.out.println("Data/Hora do Relato: " + dataHoraRelato);
+            System.out.println("Natureza da Emergência: " + naturezaEmergencia);
+            System.out.println("Tipo de Resposta: " + tipoResposta);
+            System.out.println("Status da Resposta: " + statusResposta);
+            System.out.print("Chamada via celular: ");
+            System.out.println(possuiCoordenadas ? "Sim" : "Não");
+            if (possuiCoordenadas) {
+                System.out.println("Coordenadas GPS: " + coordenadasGPS);
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int quantidade = Integer.parseInt(scanner.nextLine());
+        Emergencia[] emergencias = new Emergencia[quantidade];
+
+        for (int i = 0; i < quantidade; i++) {
+            Emergencia e = new Emergencia();
+            e.nomeChamador = scanner.nextLine();
+            e.telefoneChamador = scanner.nextLine();
+            e.localEmergencia = scanner.nextLine();
+            e.dataHoraRelato = scanner.nextLine();
+            e.naturezaEmergencia = scanner.nextLine();
+            e.tipoResposta = scanner.nextLine();
+            e.statusResposta = scanner.nextLine();
+            e.chamadaCelular = scanner.nextLine();
+
+            if (e.chamadaCelular.equalsIgnoreCase("sim")) {
+                e.coordenadasGPS = scanner.nextLine();
+                e.possuiCoordenadas = true;
+            } else {
+                e.coordenadasGPS = "";
+                e.possuiCoordenadas = false;
+            }
+
+            emergencias[i] = e;
+        }
+
+        for (int i = 0; i < quantidade; i++) {
+            emergencias[i].mostrarEmergencias(i + 1);
+        }
+
+        scanner.close();
+    }
+}
